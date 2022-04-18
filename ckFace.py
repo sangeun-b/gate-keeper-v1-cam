@@ -20,6 +20,13 @@ import re, uuid
 
 app = FaceAnalysis(providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
 app.prepare(ctx_id=0, det_size=(640, 640))#ctx_id=>GPU, det_size=>이미지 크기, 고정
+
+
+def get_mac():
+    macAddr = (':'.join(re.findall('..', '%012x' % uuid.getnode())))
+    print(macAddr)
+
+
 def index_face():
   idx = AnnoyIndex(512, 'euclidean')
   auth_faces = glob.glob(r'facebank\*\*.jpg')
@@ -190,14 +197,17 @@ def fetch_imgs():
   # heroku 올리기
 
 def main():
-  pass
-
-if __name__ == '__main__':
-  print("The MAC address in formatted and less complex way is : ", end="")
-  print(':'.join(re.findall('..', '%012x' % uuid.getnode())))
-  #main()
+  get_mac()
   fetch_imgs()
   index_face()
-  #draw_on()
+  working_on()
+
+if __name__ == '__main__':
+  main()
+  # get_mac()
+  # #main()
+  # fetch_imgs()
+  # index_face()
+  # #draw_on()
   # working_on()
 
